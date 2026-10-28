@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Build Your First AI Project in 60 Minutes</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#14162b;--mut:#5d6180;--ac:#5b3df5;--ac2:#e8e3ff;--bd:#e2e4ef;--ok:#12a150;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1020;--card:#171a30;--tx:#eef0ff;--mut:#a3a8cc;--ac:#8b78ff;--ac2:#26224d;--bd:#2a2e50;--ok:#3ddc84}}
+:root[data-theme="dark"]{--bg:#0e1020;--card:#171a30;--tx:#eef0ff;--mut:#a3a8cc;--ac:#8b78ff;--ac2:#26224d;--bd:#2a2e50;--ok:#3ddc84}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{max-width:760px;margin:0 auto;padding:20px 16px 48px}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tabs button{flex:1;padding:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;font-weight:600;cursor:pointer}
+.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.hero h1{font-size:1.9rem;line-height:1.2;margin:6px 0 8px}
+.pill{display:inline-block;background:var(--ac2);color:var(--ac);padding:4px 10px;border-radius:99px;font-size:.8rem;font-weight:700}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-top:14px}
+ul.b{padding-left:18px;margin:8px 0}
+label{display:block;font-size:.85rem;font-weight:600;margin:12px 0 4px}
+input,select{width:100%;box-sizing:border-box;padding:11px;border:1px solid var(--bd);border-radius:9px;background:var(--bg);color:var(--tx);font-size:1rem}
+.btn{width:100%;margin-top:16px;padding:13px;border:0;border-radius:10px;background:var(--ac);color:#fff;font-size:1rem;font-weight:700;cursor:pointer}
+.btn.s{width:auto;padding:9px 14px;margin:6px 6px 0 0;background:var(--ac2);color:var(--ac)}
+.bar{height:14px;background:var(--ac2);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac)}
+.row{display:flex;justify-content:space-between;gap:8px;font-size:.9rem;margin:10px 0 4px}
+.code{font:700 1.6rem monospace;letter-spacing:2px;background:var(--ac2);color:var(--ac);padding:10px;border-radius:10px;text-align:center}
+.mut{color:var(--mut);font-size:.85rem}.hide{display:none}.err{color:#d93025;font-size:.85rem}
+.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{padding:7px;border-bottom:1px solid var(--bd);text-align:left}
+</style></head><body><div class="w">
+<div class="tabs"><button id="t1" class="on" onclick="tab(1)">Register</button><button id="t2" onclick="tab(2)">Campaign tracker</button></div>
+
+<div id="p1">
+<div class="hero"><span class="pill">FREE · LIVE · 60 MIN · ONLY 500 SEATS</span>
+<h1>Build Your First AI Project in 60 Minutes</h1>
+<p class="mut">For final-year engineering students. Walk out with a working AI project, a GitHub link and a story for your next interview.</p></div>
+<div class="card"><b>What you’ll get</b><ul class="b"><li>A deployed AI project built live, no prior AI experience needed</li><li>Starter template + prompt pack to reuse for your resume</li><li>Participation certificate from NxtWave</li></ul></div>
+
+<div id="form" class="card"><b>Reserve your seat</b> <span class="mut">(takes 20 seconds)</span>
+<label>Full name</label><input id="n" autocomplete="name">
+<label>College email</label><input id="e" type="email" autocomplete="email">
+<label>College name</label><input id="c">
+<label>Branch</label><select id="b"><option>CSE / IT</option><option>ECE / EEE</option><option>AI / DS</option><option>Mechanical / Civil / Other</option></select>
+<label>How did you hear about this?</label><select id="s"><option value="whatsapp">WhatsApp group</option><option value="club">College club / placement cell</option><option value="friend">A friend’s referral</option><option value="social">LinkedIn / Instagram</option></select>
+<label>Referral code (optional)</label><input id="r" placeholder="e.g. AB12CD">
+<div id="er" class="err"></div>
+<button class="btn" onclick="reg()">Register for free</button></div>
+
+<div id="done" class="card hide"><b>You’re in! 🎉</b>
+<p class="mut">Seat confirmed for <span id="dn"></span>. Bring 5 friends and unlock the bonus “10 AI project ideas” pack.</p>
+<div class="mut">Your referral code</div><div class="code" id="mc"></div>
+<button class="btn s" onclick="share()">Share on WhatsApp</button><button class="btn s" onclick="cp()">Copy invite</button>
+<p class="mut" id="cpm"></p>
+<p class="mut">Your referrals so far: <b id="mr">0</b>. Top referrers get priority project reviews.</p></div>
+</div>
+
+<div id="p2" class="hide">
+<div class="card"><b>Registrations: <span id="tot">0</span> / 500</b><div class="bar" style="margin-top:8px"><i id="pb"></i></div>
+<p class="mut" id="eta"></p></div>
+<div class="card"><b>By channel</b> <span class="mut">(target in brackets)</span><div id="ch"></div></div>
+<div class="card"><b>Referral leaderboard</b><div class="scroll"><table id="lb"></table></div></div>
+<p class="mut">Prototype: data is stored in this browser only. Production version would write each registration to a Google Sheet via a free form webhook so this tracker updates for the whole team.</p>
+<button class="btn s" onclick="clr()">Reset demo data</button>
+</div>
+</div>
+<script>
+var K="wsreg1",T={whatsapp:270,club:150,friend:100,social:0},N={whatsapp:"WhatsApp groups",club:"Clubs & placement cells",friend:"Referral loop",social:"Social (organic)"};
+function ld(){try{return JSON.parse(localStorage.getItem(K))||[]}catch(e){return[]}}
+function sv(a){try{localStorage.setItem(K,JSON.stringify(a))}catch(e){}}
+var mem=null;
+function g(id){return document.getElementById(id)}
+function tab(n){g("p1").className=n==1?"":"hide";g("p2").className=n==2?"":"hide";g("t1").className=n==1?"on":"";g("t2").className=n==2?"on":"";if(n==2)draw()}
+function code(){var c="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",s="";for(var i=0;i<6;i++)s+=c[Math.floor(Math.random()*c.length)];return s}
+function link(){return location.href.split("#")[0]+"#r-"+mem.code}
+function msg(){return "I just registered for the free workshop “Build Your First AI Project in 60 Minutes” (only 500 seats). Join with my code "+mem.code+": "+link()}
+function reg(){var n=g("n").value.trim(),e=g("e").value.trim(),c=g("c").value.trim();
+if(!n||!c||!/^\S+@\S+\.\S+$/.test(e)){g("er").textContent="Please enter your name, a valid email and college.";return}
+var a=ld();if(a.some(function(x){return x.e==e.toLowerCase()})){g("er").textContent="This email is already registered.";return}
+var r=g("r").value.trim().toUpperCase(),s=r?"friend":g("s").value;
+mem={n:n,e:e.toLowerCase(),c:c,s:s,ref:r,code:code(),t:Date.now()};a.push(mem);sv(a);
+g("form").className="card hide";g("done").className="card";g("dn").textContent=n.split(" ")[0];g("mc").textContent=mem.code;g("mr").textContent=0}
+function share(){window.open("https://wa.me/?text="+encodeURIComponent(msg()),"_blank")}
+function cp(){try{navigator.clipboard.writeText(msg()).then(function(){g("cpm").textContent="Invite copied."},function(){g("cpm").textContent=msg()})}catch(e){g("cpm").textContent=msg()}}
+function draw(){var a=ld(),t=a.length;g("tot").textContent=t;g("pb").style.width=Math.min(100,t/5)+"%";
+g("eta").textContent=t>=500?"Target reached 🎉":(500-t)+" to go. Needs ~"+Math.ceil((500-t)/7)+" per day over a 7-day window.";
+var h="";for(var k in N){var c=a.filter(function(x){return x.s==k}).length,tg=T[k];
+h+='<div class="row"><span>'+N[k]+(tg?" ("+tg+")":"")+'</span><b>'+c+'</b></div><div class="bar"><i style="width:'+(tg?Math.min(100,c/tg*100):Math.min(100,c*10))+'%"></i></div>'}
+g("ch").innerHTML=h;
+var m={};a.forEach(function(x){if(x.ref)m[x.ref]=(m[x.ref]||0)+1});
+var l=Object.keys(m).sort(function(x,y){return m[y]-m[x]}).slice(0,5),o="<tr><th>Code</th><th>Referrals</th></tr>";
+l.forEach(function(k){o+="<tr><td>"+k+"</td><td>"+m[k]+"</td></tr>"});
+if(!l.length)o+='<tr><td colspan="2" class="mut">No referrals yet. Register using a friend’s code to test.</td></tr>';g("lb").innerHTML=o}
+function clr(){try{localStorage.removeItem(K)}catch(e){}draw()}
+(function(){var h=location.hash;if(h.indexOf("#r-")==0){g("r").value=h.slice(3).toUpperCase();g("s").value="friend"}})();
+</script></body></html>
